@@ -1,24 +1,3 @@
-# campaign-url-builder
+# UTM 网址生成器
 
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+使用此工具，您可以轻松地将广告系列参数添加到网址，以便在 Google Analytics（分析）中跟踪自定义广告系列。

@@ -54,7 +54,22 @@
         </a-form-item>
         <a-divider></a-divider>
         <a-form-item label="推广链接" :label-col="labelCol" :wrapper-col="wrapperCol">
-          <a-textarea :value="utmUrl" :autosize="{ minRows: 3 }" />
+          <a-textarea ref="url" :value="utmUrl" :autosize="{ minRows: 3 }" />
+        </a-form-item>
+        <a-form-item
+          :wrapper-col="{
+            xs: { span: 24 },
+            sm: { span: 12, offset: 4 }
+          }"
+        >
+          <a-button type="primary" @click="copyUrl">复制</a-button>
+          <a
+            :href="`http://sa.sogou.com/gettiny?url=${encodeURIComponent(this.utmUrl)}`"
+            target="_blank"
+            :style="{ marginLeft: '8px' }"
+          >
+            <a-button>转为短链接</a-button>
+          </a>
         </a-form-item>
       </a-form>
     </a-layout-content>
@@ -67,7 +82,7 @@ export default {
     return {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 5 }
+        sm: { span: 4 }
       },
       wrapperCol: {
         xs: { span: 24 },
@@ -96,7 +111,32 @@ export default {
         if (!utm[item]) return;
         utmUrl.searchParams.set(item, utm[item]);
       });
-      return utmUrl;
+      return utmUrl ? utmUrl.href : "";
+    }
+  },
+  methods: {
+    copyUrl() {
+      if (!this.utmUrl.length) return;
+      let success = false;
+      const range = document.createRange();
+      range.selectNode(this.$refs.url.$el);
+
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+
+      try {
+        success = document.execCommand("copy");
+      } catch (e) {
+        // No action.
+      }
+
+      window.getSelection().removeAllRanges();
+
+      if (success) {
+        this.$message.success("已成功复制至剪贴板");
+      } else {
+        this.$message.error("复制失败，请手动复制");
+      }
     }
   }
 };
